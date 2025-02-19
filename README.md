@@ -24,47 +24,48 @@ We also include gender_submission.csv, a set of predictions that assume all and 
 # Data Dictionary
 ## Variable Definition Key
 
-PassengerId: Unique ID Number of People
+- PassengerId: Unique ID Number of People
 
-Survived: 0 = No, 1 = Yes
+- Survived: 0 = No, 1 = Yes
 
-Pclass (Ticket class):	1 = 1st, 2 = 2nd, 3 = 3rd
+- Pclass (Ticket class):	1 = 1st, 2 = 2nd, 3 = 3rd
 
-Sex: Male, Female
+- Sex: Male, Female
 
-Age: Age in years
+- Age: Age in years
 
-SibSp:	# of siblings/spouses aboard the Titanic
+- SibSp:	# of siblings/spouses aboard the Titanic
 
-Parch:	# of parents/children aboard the Titanic
+- Parch:	# of parents/children aboard the Titanic
 
-Ticket:	Ticket number
+- Ticket:	Ticket number
 
-Fare: Passenger fare
+- Fare: Passenger fare
 
-Cabin: Cabin number
+- Cabin: Cabin number
 
-Embarked: (Port of) Embarkation C = Cherbourg, Q = Queenstown, S = Southampton
+- Embarked: (Port of) Embarkation C = Cherbourg, Q = Queenstown, S = Southampton
 
 ## Variable Notes
-Pclass: A proxy for socio-economic status (SES)
+- Pclass: A proxy for socio-economic status (SES)
+
 1st = Upper
 2nd = Middle
 3rd = Lower
 
-Age: Age is fractional if less than 1. If the age is estimated, is it in the form of xx.5
+- Age: Age is fractional if less than 1. If the age is estimated, is it in the form of xx.5
 
-SibSp: The dataset defines family relations in this way... 
+- SibSp: The dataset defines family relations in this way... 
 
-Sibling = brother, sister, stepbrother, stepsister
+- Sibling = brother, sister, stepbrother, stepsister
 
-Spouse = husband, wife (mistresses and fiancés were ignored)
+- Spouse = husband, wife (mistresses and fiancés were ignored)
 
 
-Parch: The dataset defines family relations in this way...
+- Parch: The dataset defines family relations in this way...
 
-Parent = mother, father
+- Parent = mother, father
 
-Child = daughter, son, stepdaughter, stepson
+- Child = daughter, son, stepdaughter, stepson
 
 Some children traveled only with a nanny, therefore parch=0 for them.
