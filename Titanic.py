@@ -9,9 +9,8 @@ from sklearn.ensemble import GradientBoostingClassifier, AdaBoostClassifier, Ran
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
 
 # Data Importing
-train_df = pd.read_csv('C:/Users/alexa/OneDrive/Έγγραφα/Work_Python/Data_Analysis/Project 1 Titanic/train.csv')
-test_df = pd.read_csv('C:/Users/alexa/OneDrive/Έγγραφα/Work_Python/Data_Analysis/Project 1 Titanic/test.csv')
-gender_submission = pd.read_csv('C:/Users/alexa/OneDrive/Έγγραφα/Work_Python/Data_Analysis/Project 1 Titanic/gender_submission.csv')
+train_df = pd.read_csv(r'C:\Users\alexa\OneDrive\Έγγραφα\Work_Python\Data_Analysis\Project1_Titanic\train.csv')
+test_df = pd.read_csv(r'C:\Users\alexa\OneDrive\Έγγραφα\Work_Python\Data_Analysis\Project1_Titanic\test.csv')
 
 # # Data Inspection
 # def inspect_dataframe(df, name="Dataset"):
@@ -24,7 +23,6 @@ gender_submission = pd.read_csv('C:/Users/alexa/OneDrive/Έγγραφα/Work_Pyt
 
 # inspect_dataframe(train_df, "Train dataset")
 # inspect_dataframe(test_df, "Test dataset")
-# inspect_dataframe(gender_submission, "Gender Submission dataset")
 
 # # Exploratory Data Analysis  - EDA
 # print('Distribution of the target variable:') # Check the people who survived
@@ -224,7 +222,6 @@ print(f"Best model selected: {best_model_name}")
 # Testing Model
 test_df['Survived'] = best_model.predict(test_df[features]) # Make predictions on the test dataset
 submission = test_df[['PassengerId','Survived']] # Create a DataFrame for submission
-print(f1_score(submission['Survived'], gender_submission['Survived'])) # Check the accuracy of the model
 
 ## Create a figure barplot for Survived by Sex for Testing Dataset
 # fig, ax = plt.subplots(figsize=(8, 6))
