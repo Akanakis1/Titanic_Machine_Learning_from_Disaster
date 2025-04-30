@@ -1,6 +1,7 @@
 # 🚢 Titanic: Machine Learning from Disaster
 
-### 📊 Data Source  
+### 📊 Data Source
+The dataset used for this project is sourced from Kaggle.
 [Kaggle Titanic Dataset](https://www.kaggle.com/competitions/titanic)
 
 ### 🔗 Kaggle Project  
