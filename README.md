@@ -13,14 +13,15 @@ Check out my solution and code here:
 
 The Titanic dataset is divided into two primary files:
 
-- **`train.csv`**  
-  Contains labeled data (ground truth) used to train machine learning models. It includes features like passenger class, age, gender, and survival status.
+- **`Titanic.ipynb`**: Jupyter Notebook containing the project code, data analysis, and model building.
 
-- **`test.csv`**  
-  Includes similar features but without the survival outcome. The goal is to predict this outcome using your trained model.
+- **`Titanic_submission.csv`**: Dataset containing the property features and sale prices.
 
-- **`gender_submission.csv`**  
-  A sample prediction file that assumes all female passengers survived and all males did not. This serves as a baseline for submission formatting.
+- **`requirements.txt`**: List of dependencies required for running the project.
+
+- **`train.csv`**: Contains labeled data (ground truth) used to train machine learning models. It includes features like passenger class, age, gender, and survival status.
+
+- **`test.csv`**: Includes similar features but without the survival outcome. The goal is to predict this outcome using your trained model.
 
 ---
 
@@ -92,4 +93,4 @@ The goal is to **build a predictive model** that estimates the survival of Titan
 git clone https://github.com/Akanakis1/Titanic_Machine_Learning_from_Disaster.git
 cd Titanic_Machine_Learning_from_Disaster
 pip install -r requirements.txt  # if provided
-python titanic_classifier.py     # or run via Jupyter Notebook
+python Titanic.ipynb     # or run via Jupyter Notebook
