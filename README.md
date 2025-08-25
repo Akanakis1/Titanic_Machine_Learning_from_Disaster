@@ -1,97 +1,137 @@
-# 🚢 Titanic: Machine Learning from Disaster
+# 🚢 Titanic: Machine Learning from Disaster – Survival Prediction
 
-### 📊 Data Source
-The dataset used for this project is sourced from Kaggle.
-[Kaggle Titanic Dataset](https://www.kaggle.com/competitions/titanic)
-
-### 🔗 Kaggle Project  
-Check out my solution and code here:  
-**[Titanic Survived Classifier – Alexandros Kanakis](https://kaggle.com/code/alexandroskanakis/titanic-survived-classifier)**
+[![Kaggle](https://img.shields.io/badge/Kaggle-View%20Project-blue?logo=kaggle)](https://www.kaggle.com/code/alexandroskanakis/titanic-survived-classifier)
+[![Python](https://img.shields.io/badge/Python-3.12-green?logo=python)](https://www.python.org/)
+[![XGBoost](https://img.shields.io/badge/XGBoost-Machine%20Learning-orange?logo=xgboost)]
 
 ---
 
-## 📁 Dataset Overview
+## 📊 Project Overview
 
-The Titanic dataset is divided into two primary files:
-
-- **`Titanic.ipynb`**: Jupyter Notebook containing the project code, data analysis, and model building.
-
-- **`Titanic_submission.csv`**: Dataset containing the property features and sale prices.
-
-- **`requirements.txt`**: List of dependencies required for running the project.
-
-- **`train.csv`**: Contains labeled data (ground truth) used to train machine learning models. It includes features like passenger class, age, gender, and survival status.
-
-- **`test.csv`**: Includes similar features but without the survival outcome. The goal is to predict this outcome using your trained model.
+This project aims to predict the survival of **Titanic passengers** using machine learning algorithms on passenger data, including age, sex, fare, class, and family relations. It features extensive preprocessing, feature engineering, and evaluation of multiple models with automated best-model selection.
 
 ---
 
-## 📘 Data Dictionary
+## 🔍 Motivation
+
+The Titanic dataset is a classic ML challenge: predicting survival from structured data reflecting social, demographic, and economic factors. This project refines baseline efforts through advanced feature engineering (e.g., titles, family size, deck extraction) and compares tree-based and linear models to improve predictive accuracy.
+
+---
+
+## 📘 Dataset Overview
+
+The dataset consists of:
+
+<div align="center">
+
+| File                                  | Description                                         |
+|-------------------------------------|-----------------------------------------------------|
+| `train.csv`                         | Training data with labeled survival outcome          |
+| `test.csv`                          | Test data without survival labels to predict          |
+| `data/final/`                      | Folder for storing model submission CSV files         |
+| `notebooks/Exploratory_Data_Analysis_(EDA).ipynb` | Jupyter notebook containing exploratory data analysis |
+| `requirements.txt`                 | Python package dependencies                            |
+
+</div>
 
 ### ✨ Key Variables
 
-| Variable       | Description |
-|----------------|-------------|
-| `PassengerId`  | Unique identifier for each passenger |
-| `Survived`     | Survival status (0 = No, 1 = Yes) |
-| `Pclass`       | Ticket class (1 = 1st, 2 = 2nd, 3 = 3rd) |
-| `Sex`          | Gender of the passenger |
-| `Age`          | Age in years (fractional if <1, estimated if xx.5) |
-| `SibSp`        | Number of siblings/spouses aboard |
-| `Parch`        | Number of parents/children aboard |
-| `Ticket`       | Ticket number |
-| `Fare`         | Passenger fare |
-| `Cabin`        | Cabin number |
-| `Embarked`     | Port of embarkation (`C` = Cherbourg, `Q` = Queenstown, `S` = Southampton) |
+<div align="center">
 
-### 👨‍👩‍👧 Family-Related Features
+| Variable       | Description                                               |
+|----------------|-----------------------------------------------------------|
+| `PassengerId`  | Unique passenger identifier                                |
+| `Survived`     | Survival status (0 = No, 1 = Yes)                         |
+| `Pclass`       | Passenger class (1st, 2nd, 3rd)                           |
+| `Sex`          | Gender of passenger                                       |
+| `Age`          | Age in years                                             |
+| `SibSp`        | Number of siblings/spouses aboard                         |
+| `Parch`        | Number of parents/children aboard                         |
+| `Ticket`       | Ticket number                                            |
+| `Fare`         | Passenger fare                                          |
+| `Cabin`        | Cabin number/floor (used for feature extraction)           |
+| `Embarked`     | Port of embarkation (`C`=Cherbourg, `Q`=Queenstown, `S`=Southampton) |
 
-- **SibSp**:  
-  - Siblings = brother, sister, stepbrother, stepsister  
-  - Spouses = husband, wife (mistresses and fiancés excluded)
-
-- **Parch**:  
-  - Parents = mother, father  
-  - Children = daughter, son, stepdaughter, stepson  
-  *(Some children traveling only with a nanny may have `Parch = 0`.)*
+</div>
 
 ---
 
 ## 🎯 Project Objective
 
-The goal is to **build a predictive model** that estimates the survival of Titanic passengers based on the available features. This includes:
+Build a robust classification model to **predict survival** of Titanic passengers leveraging:
 
-- Data cleaning and preprocessing  
-- Feature engineering  
-- Model training and validation  
-- Performance evaluation  
-- Submission of predictions to Kaggle
-
----
-
-## 🔧 Future Work & Enhancements
-
-- 📌 Further feature engineering (e.g., titles, family size, cabin sections)  
-- 🤖 Comparing various ML algorithms (e.g., Random Forest, SVM, Gradient Boosting)  
-- 🛠️ Hyperparameter tuning and k-fold cross-validation  
-- 📈 Use of advanced evaluation metrics (ROC-AUC, F1-Score)
+- Data cleaning and imputation of missing values  
+- Feature engineering: titles, family size, cabin deck, etc.  
+- Training and validation of multiple machine learning algorithms  
+- Selecting the best model by validation accuracy  
+- Generating submission files for the Kaggle competition
 
 ---
 
-## 🧠 Skills Demonstrated
+## 🏆 Achievements
 
-- Data wrangling with **Pandas**
-- Visual analysis with **Matplotlib** and **Seaborn**
-- Machine learning with **Scikit-learn**
-- Submission formatting for Kaggle competitions
-- Iterative improvement through error analysis
+- Created enriched features from raw data to improve predictive power  
+- Compared and tuned six ML models, including Logistic Regression, SVC, Random Forest, Gradient Boosting, AdaBoost, and XGBoost  
+- Achieved best validation accuracy with **XGBoost (84.44%)**  
+- Automated pipeline for preprocessing, training, evaluation, and test prediction  
+- Prepared final submission file ready for Kaggle upload  
 
 ---
 
-## 🛠️ Installation (Optional)
+## 🔧 Tools & Technologies
 
-```bash
-git clone https://github.com/Akanakis1/Titanic_Machine_Learning_from_Disaster.git
-cd Titanic_Machine_Learning_from_Disaster
-pip install -r requirements.txt  # if provided
-python Titanic.ipynb     # or run via Jupyter Notebook
+- **Programming Language:** Python  
+- **Libraries:** Pandas, NumPy, Scikit-learn, XGBoost, Matplotlib, Seaborn  
+- **Platform:** Kaggle and local Python environment  
+
+---
+
+## 📁 Repository Contents
+
+<div align="center">
+
+| File                                | Description                                           |
+|-----------------------------------|-------------------------------------------------------|
+| `Titanic_Machine_Learning.py`     | Full pipeline: preprocessing, modeling, evaluation, prediction |
+| `train.csv`                       | Labeled training set                                  |
+| `test.csv`                        | Test set for prediction                               |
+| `data/final/Titanic_Machine_Learning_from_Disaster.csv` | Submission file with model predictions                |
+| `notebooks/Exploratory_Data_Analysis_(EDA).ipynb` | Notebook for initial data analysis                    |
+| `requirements.txt`                | Required Python packages                              |
+
+</div>
+
+---
+
+## 📂 Project Directory Structure
+
+Titanic-ML-Project/  
+├── data/  
+│ ├── final/  
+│ │ └── Titanic_Machine_Learning_from_Disaster.csv  
+│ ├── test.csv  
+│ └── train.csv  
+├── notebooks/  
+│ └── Exploratory_Data_Analysis_(EDA).ipynb  
+├── README.md  
+├── requirements.txt  
+└── Titanic_Machine_Learning.py  
+
+- **data/**: Data files for training, testing, and output  
+- **data/final/**: Folder to save submission CSV  
+- **notebooks/**: Analysis notebook with visualizations  
+- **requirements.txt**: Dependencies list  
+- **Titanic_Machine_Learning.py**: Main executable script  
+
+---
+
+## 🚀 Project Workflow Diagram
+
+A[Load Data] --> B[Preprocessing & Cleaning]  
+B --> C[Feature Engineering]  
+C --> D[Train/Validation Split]  
+D --> E[Model Training]  
+E --> F[Model Evaluation]  
+F --> G[Best Model Selection]  
+G --> H[Predict on Test Set]  
+H --> I[Save Submission File]  
