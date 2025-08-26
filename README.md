@@ -8,7 +8,11 @@
 
 ## 📊 Project Overview
 
+<<<<<<< HEAD
 This project aims to predict the survival of **Titanic passengers** using machine learning algorithms on passenger data, including age, sex, fare, class, and family relations. It features extensive preprocessing, feature engineering, and evaluation of multiple models with automated best-model selection.
+=======
+This project is aimed at predicting **Titanic passengers’ survival** using machine learning algorithms on passenger data like age, sex, fare, class, family relations, etc. It features extensive preprocessing, feature engineering, and evaluation of multiple models with automated best-model selection.
+>>>>>>> eed353e2c0ceb90f9aacffded49ea2b5a7a8b394
 
 ---
 
