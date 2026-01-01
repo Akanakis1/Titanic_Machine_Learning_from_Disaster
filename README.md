@@ -2,7 +2,7 @@
 
 **Dataset:** [Titanic - Machine Learning from Disaster – Kaggle](https://www.kaggle.com/c/titanic)
 
-Predicting passenger survival on the Titanic using a complete machine-learning workflow:
+Predicting passenger survival on the Titanic using a complete machine-learning workflow:  
 **data cleaning → feature engineering → model comparison → best-model selection → Kaggle submission**.
 
 **Best validation performance:** **XGBoost = 0.8444 accuracy**
