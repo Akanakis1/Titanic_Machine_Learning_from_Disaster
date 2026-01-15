@@ -1,74 +1,89 @@
-# 🚢 Titanic Survival Prediction (Kaggle) — End-to-End ML Pipeline
+# Titanic Survival Prediction — Reproducible Classification Workflow
 
-**Dataset:** [Titanic - Machine Learning from Disaster – Kaggle](https://www.kaggle.com/c/titanic)
+This project implements a clean, end-to-end supervised classification workflow
+using the Titanic passenger dataset. The focus is on **feature engineering,
+model comparison, and disciplined evaluation**, rather than competition ranking.
 
-Predicting passenger survival on the Titanic using a complete machine-learning workflow:  
-**data cleaning → feature engineering → model comparison → best-model selection → Kaggle submission**.
-
-**Best validation performance:** **XGBoost = 0.8444 accuracy**
-
----
-
-## ✨ Highlights
-- Built a reproducible pipeline that merges train/test, engineers' features, compares models, and exports a Kaggle-ready submission.
-- Feature engineering from raw fields (e.g., **Title from Name**, **Deck/Floor from Cabin**, **FamilySize**, **Single**, **Embarked dummies**).
-- Benchmarked **6 classification models** and automatically selected the best one by validation accuracy.
-- Final output file: `data/final/Titanic_Machine_Learning_from_Disaster.csv`.
+Dataset source: https://www.kaggle.com/c/titanic
 
 ---
 
-## 🧠 Approach (What I did)
+## Project Overview
 
-### 1) Data preprocessing
-- Merged train + test with a flag (`is_train`) to ensure consistent transformations.
-- Encoded variables (e.g., `Sex` mapped to numeric).
-- Imputed missing values:
-  - `Age` → median
-  - `Fare` → median
-  - `Embarked` → mode
+**Objective**  
+Predict passenger survival using structured demographic and ticket information,
+and evaluate whether engineered features improve classification performance
+over simple baselines.
 
-### 2) Feature engineering (adds signal beyond baseline)
-- **Title extraction** from passenger names + grouping rare titles.
-- **Cabin deck (“Floor”)** extracted from Cabin and one-hot encoded (A–G).
+**Workflow**  
+Data cleaning → feature engineering → model comparison →
+best-model selection → submission export.
+
+---
+
+## Key Result
+
+- **Best validation accuracy:** **0.8444** (XGBoost)
+
+This performance was achieved using engineered features derived from passenger
+names, cabin information, and family structure.
+
+---
+
+## Feature Engineering Highlights
+
+The following features were engineered to capture meaningful passenger patterns:
+
+- **Title extraction** from names (with rare titles grouped)
+- **Cabin deck (floor)** extracted from cabin identifiers
 - **Family features**
   - `FamilySize = SibSp + Parch + 1`
   - `Single` indicator
-- One-hot encoding for Embarked (kept C and Q).
-
-### 3) Modeling + evaluation
-Models compared (same validation split, `random_state=42`):
-- Logistic Regression (scaled features)
-- SVC (scaled features)
-- Random Forest
-- Gradient Boosting
-- AdaBoost
-- XGBoost
-
-Validation accuracy summary (best model highlighted):
-| Model | Accuracy (Valid) |
-|---|---:|
-| Logistic Regression | 0.8333 |
-| SVC | 0.8333 |
-| Random Forest | 0.8222 |
-| Gradient Boosting | 0.8333 |
-| AdaBoost | 0.8000 |
-| **XGBoost** | **0.8444** |
+- Encoded embarkation ports (C, Q)
+- Consistent handling of missing values:
+  - Age → median
+  - Fare → median
+  - Embarked → mode
 
 ---
 
-## 📁 Repo structure
-- `Titanic_Machine_Learning.py` — main pipeline (preprocessing → modeling → submission)
-- `Titanic.ipynb` — notebook version (optional)
-- `Exploratory_Data_Analysis_(EDA).ipynb` — EDA & visuals (optional)
-- `data/train.csv`, `data/test.csv` — Kaggle dataset files (expected locally)
-- `data/final/` — output submission file
+## Modeling & Evaluation
+
+Models were trained and evaluated using the same validation split
+(`random_state=42`) to ensure comparability.
+
+| Model               | Validation Accuracy |
+|---------------------|---------------------|
+| Logistic Regression | 0.8333              |
+| Support Vector Classifier | 0.8333      |
+| Random Forest       | 0.8222              |
+| Gradient Boosting   | 0.8333              |
+| AdaBoost            | 0.8000              |
+| **XGBoost**         | **0.8444**          |
+
+The best-performing model was selected automatically and used
+to generate the final submission file.
 
 ---
 
-## 🚀 How to run
-> Note: the script expects dataset files under `data/` (see code paths).
+## Repository Structure
 
-### 1) Install dependencies
-If you have a `requirements.txt`:
-```bash
-pip install -r requirements.txt
+├── data/  
+│ ├── train.csv  
+│ ├── test.csv  
+│ └── final/  
+│ └── Titanic_Machine_Learning_from_Disaster.csv  
+├── notebooks/  
+│ ├── Exploratory_Data_Analysis_(EDA).ipynb  
+│ └── Titanic.ipynb  
+├── Titanic_Machine_Learning.py  
+├── requirements.txt  
+└── README.md  
+
+---
+
+## How to Run
+
+1. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
