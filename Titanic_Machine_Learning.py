@@ -209,10 +209,10 @@ for name, model in models.items():
         y_pred_val = model.predict(X_val)
 
     results[name] = {
-        "Accuracy Train": f"{accuracy_score(y_train, y_pred_train)}",
+        "Accuracy Train": accuracy_score(y_train, y_pred_train),
         "Confusion Matrix Train": f"{confusion_matrix(y_train, y_pred_train)}\n",
-        "Accuracy Valid": f"{accuracy_score(y_val, y_pred_val)}",
-        "Confusion Matrix Valid": f"{confusion_matrix(y_val, y_pred_val)}\n"
+        "Accuracy Valid": accuracy_score(y_val, y_pred_val),
+        "Confusion Matrix Valid": confusion_matrix(y_val, y_pred_val)\n"
     }
 
 
