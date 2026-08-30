@@ -1,8 +1,6 @@
 # Titanic Survival Prediction — Reproducible Classification Workflow
  
-This project implements a clean, end-to-end supervised classification workflow
-using the Titanic passenger dataset. The focus is on **feature engineering,
-model comparison, and disciplined evaluation**, rather than competition ranking.
+This project implements a clean, end-to-end supervised classification workflow using the Titanic passenger dataset. The focus is on **feature engineering, model comparison, and disciplined evaluation**, rather than competition ranking.
  
 Dataset source: https://www.kaggle.com/c/titanic
  
@@ -11,21 +9,17 @@ Dataset source: https://www.kaggle.com/c/titanic
 ## Project Overview
  
 **Objective**
-Predict passenger survival using structured demographic and ticket information,
-and evaluate whether engineered features improve classification performance
-over simple baselines.
+Predict passenger survival using structured demographic and ticket information, and evaluate whether engineered features improve classification performance over simple baselines.
  
 **Workflow**
-Data cleaning → feature engineering → model comparison →
-best-model selection → submission export.
+Data cleaning → feature engineering → model comparison → best-model selection → submission export.
  
 ---
  
 ## Key Result
  
-- **Best validation accuracy:** **0.8444** (XGBoost)
-This performance was achieved using engineered features derived from passenger
-names, cabin information, and family structure.
+- **Best validation accuracy:** **0.8444** (XGBoost) 
+This performance was achieved using engineered features derived from passenger names, cabin information, and family structure.
  
 > **Note on interpreting the table below:** the six models are separated by
 > only 4.4 points of accuracy (0.8000–0.8444) on a single held-out split of a
@@ -43,11 +37,10 @@ names, cabin information, and family structure.
 The following features were engineered to capture meaningful passenger patterns:
  
 - **Title extraction** from names (with rare titles grouped)
-- **Cabin deck (floor)** extracted from cabin identifiers
-  <!-- TODO: state how missing Cabin values were handled before deck
-  extraction (~77% of Cabin is missing in the raw Titanic data) — e.g.
-  grouped as an "Unknown" deck, consistent with the categorical-imputation
-  approach used elsewhere in this pipeline. -->
+- **Cabin deck (floor)** extracted from cabin identifiers (decks A–G); a
+  missing Cabin value carries no deck signal at all (all deck indicators are
+  0 for that passenger) rather than being grouped into an explicit "Unknown"
+  category
 - **Family features**
   - `FamilySize = SibSp + Parch + 1`
   - `Single` indicator
@@ -61,9 +54,7 @@ The following features were engineered to capture meaningful passenger patterns:
  
 ## Modeling & Evaluation
  
-Models were trained and evaluated on the same held-out validation split
-<!-- TODO: state the split ratio, e.g. "(80/20, random_state=42)" -->
-(`random_state=42`) to ensure comparability.
+Models were trained and evaluated on the same held-out validation split (90/10, `random_state=42`) to ensure comparability.
  
 | Model                      | Validation Accuracy |
 |-----------------------------|---------------------|
@@ -74,8 +65,7 @@ Models were trained and evaluated on the same held-out validation split
 | Gradient Boosting            | 0.8333              |
 | **XGBoost**                  | **0.8444**          |
  
-The best-performing model by validation accuracy was selected automatically
-and used to generate the final submission file.
+The best-performing model by validation accuracy was selected automatically and used to generate the final submission file.
  
 ---
  
