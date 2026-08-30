@@ -65,11 +65,8 @@ titanic = pd.concat([titanic, title_dum], axis=1)
 titanic["Floor"] = titanic["Cabin"].str.extract(r"([A-Za-z]+)")
 
 ### One-Hot Encode Floor feature, selecting specific floors
-floor_dum = pd.get_dummies(
-    titanic["Floor"], prefix="Floor", prefix_sep="_"
-)[[
-    "Floor_A", "Floor_B", "Floor_C", "Floor_D",
-    "Floor_E", "Floor_F", "Floor_G"
+floor_dum = pd.get_dummies(titanic["Floor"], prefix="Floor", prefix_sep="_")[[
+    "Floor_A", "Floor_B", "Floor_C", "Floor_D", "Floor_E", "Floor_F", "Floor_G"
 ]]
 titanic = pd.concat([titanic, floor_dum], axis=1)
 
