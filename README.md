@@ -18,7 +18,7 @@ Data cleaning → feature engineering → model comparison → best-model select
  
 ## Key Result
  
-- **Best validation accuracy:** **0.8444** (XGBoost) 
+- **Best validation accuracy:** **0.8444** (XGBoost)
 This performance was achieved using engineered features derived from passenger names, cabin information, and family structure.
  
 > **Note on interpreting the table below:** the six models are separated by
