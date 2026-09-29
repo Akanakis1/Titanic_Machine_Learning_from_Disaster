@@ -1,4 +1,4 @@
-# Titanic Survival Prediction — Reproducible Classification Workflow
+# Titanic Survival Prediction: Reproducible Classification Workflow
  
 This project implements a clean, end-to-end supervised classification workflow using the Titanic passenger dataset. The focus is on **feature engineering, model comparison, and disciplined evaluation**, rather than competition ranking.
  
@@ -26,7 +26,7 @@ This performance was achieved using engineered features derived from passenger n
 > ~891-row training set. A gap that small is well within what a different
 > `random_state` could produce on its own. Treat XGBoost's win here as
 > "roughly tied for best" rather than a decisive result unless it's confirmed
-> with cross-validation (e.g. mean ± std accuracy across 5 folds) — that
+> with cross-validation (e.g. mean ± std accuracy across 5 folds); that
 > would also make the "disciplined evaluation" framing above fully earned
 > rather than asserted.
  
