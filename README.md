@@ -91,8 +91,8 @@ The best-performing model by validation accuracy was selected automatically and 
  
 1. Clone the repository:
 ```bash
-   git clone https://github.com/<your-username>/<your-repo-name>.git
-   cd <your-repo-name>
+   git clone https://github.com/Akanakis1/Titanic_Machine_Learning_from_Disaster.git
+   cd Titanic_Machine_Learning_from_Disaster
 ```
  
 2. Install dependencies:
