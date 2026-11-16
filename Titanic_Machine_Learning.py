@@ -4,20 +4,23 @@
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, StratifiedKFold
+from sklearn.base import clone
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
 from sklearn.ensemble import GradientBoostingClassifier, AdaBoostClassifier, RandomForestClassifier
 from xgboost import XGBClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.impute import SimpleImputer
-import os
- 
+from pathlib import Path
+
 # =====================================================
 # 2. Data Importing
 # =====================================================
-train_df = pd.read_csv(r"data\train.csv")
-test_df = pd.read_csv(r"data\test.csv")
+BASE_DIR = Path(__file__).resolve().parent
+DATA_DIR = BASE_DIR / "data"
+train_df = pd.read_csv(DATA_DIR / "train.csv")
+test_df = pd.read_csv(DATA_DIR / "test.csv")
  
 # Add flag before merging datasets
 train_df["is_train"] = 1
@@ -124,6 +127,7 @@ def clean_and_encode(df):
  
 X_train = clean_and_encode(X_train)
 X_val = clean_and_encode(X_val)
+test_raw = test_df.copy()  # raw copy, re-cleaned below for the final fit (section 4.9)
 test_df = clean_and_encode(test_df)
  
 # Keep the features list in sync with the Embarked_C / Embarked_Q columns
@@ -227,26 +231,77 @@ for name, scores in results.items():
             print(f"{metric:<25}:\n{value}")
     print("-" * 45)
  
-## 4.8 Select Best Model and Predict on Test Set
-best_model_name = max(results, key=lambda x: results[x]["Accuracy Valid"])
-best_model = models[best_model_name]
-print(f"Best model selected: {best_model_name}")
- 
-# Impute and scale test features for Logistic Regression/SVC
-test_imputed = imputer.transform(test_df[features])
-test_scaled = scaler.transform(test_imputed)
- 
-# Predict using scaled features if model requires scaling, else use unscaled
-if best_model_name in ["Logistic Regression", "SVC"]:
-    test_df["Survived"] = best_model.predict(test_scaled)
-else:
-    test_df["Survived"] = best_model.predict(test_df[features])
- 
-# Prepare submission DataFrame
-Titanic_submission = test_df[["PassengerId", "Survived"]]
- 
-# Save submission file
-output_dir = r'data\final'
-os.makedirs(output_dir, exist_ok=True)
-Titanic_submission.to_csv(os.path.join(output_dir, "Titanic_Machine_Learning_from_Disaster.csv"), index=False)
+## 4.8 Stratified 5-fold cross-validation
+# The 90-row validation split above cannot separate models that differ by a few
+# points of accuracy (one passenger is about 1.1 points). Each fold below learns
+# its imputation values and scaler from its own training portion only, so nothing
+# leaks from the held-out fold. Model selection uses the CV mean, not the split.
+SCALED_MODELS = ["Logistic Regression", "SVC"]
+raw_features = X.columns.tolist()
+
+
+def fit_cleaning(X_fit):
+    """Learn imputation values from X_fit only and return a cleaning function."""
+    age_med = X_fit["Age"].median()
+    fare_med = X_fit["Fare"].median()
+    emb_mode = X_fit["Embarked"].mode()[0]
+
+    def clean(df):
+        df = df.copy()
+        df["Age"] = df["Age"].fillna(age_med)
+        df["Fare"] = df["Fare"].fillna(fare_med)
+        df["Embarked"] = df["Embarked"].fillna(emb_mode)
+        emb = pd.get_dummies(df["Embarked"], prefix="Embarked", prefix_sep="_")
+        emb = emb.reindex(columns=["Embarked_C", "Embarked_Q"], fill_value=False)
+        return pd.concat([df.drop(columns="Embarked"), emb], axis=1)
+
+    return clean
+
+
+def cv_accuracy(name, estimator, X_raw, y_raw, n_splits=5, seed=42):
+    skf = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=seed)
+    scores = []
+    for fit_idx, eval_idx in skf.split(X_raw, y_raw):
+        X_fit, X_eval = X_raw.iloc[fit_idx], X_raw.iloc[eval_idx]
+        y_fit, y_eval = y_raw.iloc[fit_idx], y_raw.iloc[eval_idx]
+        clean = fit_cleaning(X_fit)
+        X_fit, X_eval = clean(X_fit), clean(X_eval)
+        if name in SCALED_MODELS:
+            sc = StandardScaler()
+            X_fit, X_eval = sc.fit_transform(X_fit), sc.transform(X_eval)
+        model = clone(estimator)
+        model.fit(X_fit, y_fit)
+        scores.append(accuracy_score(y_eval, model.predict(X_eval)))
+    return np.array(scores)
+
+
+cv_results = {}
+print("Stratified 5-fold cross-validation (accuracy, mean +/- std):")
+for name, estimator in models.items():
+    scores = cv_accuracy(name, estimator, X, y)
+    cv_results[name] = scores
+    print(f"{name:<22}: {scores.mean():.4f} +/- {scores.std():.4f}")
+print("-" * 45)
+
+## 4.9 Select Best Model (by CV mean) and Predict on Test Set
+best_model_name = max(cv_results, key=lambda n: cv_results[n].mean())
+print(f"Best model selected (CV mean accuracy): {best_model_name}")
+
+# Refit the chosen model on the whole training set, learning imputation from it only
+clean_full = fit_cleaning(X)
+X_full = clean_full(X)
+test_final = clean_full(test_raw[raw_features])
+best_model = clone(models[best_model_name])
+if best_model_name in SCALED_MODELS:
+    sc_full = StandardScaler()
+    X_full = sc_full.fit_transform(X_full)
+    test_final = sc_full.transform(test_final)
+best_model.fit(X_full, y)
+test_raw["Survived"] = best_model.predict(test_final).astype(int)
+
+# Prepare and save submission file
+Titanic_submission = test_raw[["PassengerId", "Survived"]]
+output_dir = DATA_DIR / "final"
+output_dir.mkdir(parents=True, exist_ok=True)
+Titanic_submission.to_csv(output_dir / "Titanic_Machine_Learning_from_Disaster.csv", index=False)
 print("Submission file saved as 'Titanic_Machine_Learning_from_Disaster.csv'")

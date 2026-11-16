@@ -18,17 +18,16 @@ Data cleaning → feature engineering → model comparison → best-model select
  
 ## Key Result
  
-- **Best validation accuracy:** **0.8444** (XGBoost)
-This performance was achieved using engineered features derived from passenger names, cabin information, and family structure.
- 
-> **Note on interpreting the table below:** the six models are separated by
-> only 4.4 points of accuracy (0.8000–0.8444) on a single held-out split of a
-> ~891-row training set. A gap that small is well within what a different
-> `random_state` could produce on its own. Treat XGBoost's win here as
-> "roughly tied for best" rather than a decisive result unless it's confirmed
-> with cross-validation (e.g. mean ± std accuracy across 5 folds); that
-> would also make the "disciplined evaluation" framing above fully earned
-> rather than asserted.
+- **Best cross-validated accuracy:** **0.841 ± 0.017** (XGBoost, stratified 5-fold)
+- **Best single-split validation accuracy:** **0.8444** (XGBoost, 90 held-out passengers)
+
+The features come from passenger names (title), cabin information (deck) and family structure.
+
+> **How to read these numbers:** the validation split holds only 90 passengers, so
+> one passenger is about 1.1 points of accuracy. On the 5-fold cross-validation, the
+> top models (XGBoost 0.841, Gradient Boosting 0.837) are separated by less than
+> one standard deviation (about 0.017). XGBoost is **roughly tied for best**, not a
+> decisive winner. Models are therefore selected by the cross-validated mean.
  
 ---
  
@@ -54,18 +53,23 @@ The following features were engineered to capture meaningful passenger patterns:
  
 ## Modeling & Evaluation
  
-Models were trained and evaluated on the same held-out validation split (90/10, `random_state=42`) to ensure comparability.
+All models use the same 90/10 split (`random_state=42`) and the same stratified 5-fold
+cross-validation (`random_state=42`). In each fold, the imputation values (Age and Fare median,
+Embarked mode) and the scaler are learned from that fold's training portion only, so nothing
+leaks from the held-out passengers.
  
-| Model                      | Validation Accuracy |
-|-----------------------------|---------------------|
-| AdaBoost                    | 0.8000              |
-| Random Forest                | 0.8222              |
-| Logistic Regression          | 0.8333              |
-| Support Vector Classifier    | 0.8333              |
-| Gradient Boosting            | 0.8333              |
-| **XGBoost**                  | **0.8444**          |
+| Model                      | Validation accuracy (90 passengers) | 5-fold CV accuracy (mean ± std) |
+|-----------------------------|------------------------------------|---------------------------------|
+| AdaBoost                    | 0.8000                             | 0.813 ± 0.016                   |
+| Gradient Boosting           | 0.8222                             | 0.837 ± 0.020                   |
+| Random Forest               | 0.8333                             | 0.823 ± 0.017                   |
+| Logistic Regression         | 0.8333                             | 0.825 ± 0.019                   |
+| Support Vector Classifier   | 0.8333                             | 0.828 ± 0.012                   |
+| **XGBoost**                 | **0.8444**                         | **0.841 ± 0.017**               |
  
-The best-performing model by validation accuracy was selected automatically and used to generate the final submission file.
+The model with the highest cross-validated mean is refit on the whole training set and used to generate
+the submission file. Numbers come from scikit-learn 1.9.1 and xgboost 3.4.1; other library versions can
+shift individual single-split values slightly.
  
 ---
  
@@ -78,8 +82,8 @@ The best-performing model by validation accuracy was selected automatically and 
 │   └── final/
 │       └── Titanic_Machine_Learning_from_Disaster.csv
 ├── notebooks/
-│   ├── Exploratory_Data_Analysis_(EDA).ipynb
-│   └── Titanic.ipynb
+│   └── Exploratory_Data_Analysis_(EDA).ipynb
+├── Titanic.ipynb
 ├── Titanic_Machine_Learning.py
 ├── requirements.txt
 └── README.md
